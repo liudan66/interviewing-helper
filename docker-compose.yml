@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  backend:
+    image: python:3.12-slim
+    container_name: interview-helper-backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env
+    command: sh -c "pip install --no-cache-dir -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - '8000:8000'
+
+  frontend:
+    image: node:22-alpine
+    container_name: interview-helper-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports:
+      - '5173:5173'
+    depends_on:
+      - backend
