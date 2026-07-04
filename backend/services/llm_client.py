@@ -22,14 +22,14 @@ class LLMClient:
         if not self._client:
             return fallback
 
-        response = await self._client.responses.create(
+        response = await self._client.chat.completions.create(
             model=self._model,
-            input=[
+            messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
         )
-        text = response.output_text.strip()
+        text = (response.choices[0].message.content or "").strip()
         return text or fallback
 
     async def generate_json(
@@ -41,15 +41,15 @@ class LLMClient:
         if not self._client:
             return fallback
 
-        response = await self._client.responses.create(
+        response = await self._client.chat.completions.create(
             model=self._model,
-            input=[
+            messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            text={"format": {"type": "json_object"}},
+            response_format={"type": "json_object"},
         )
-        output_text = response.output_text.strip()
+        output_text = (response.choices[0].message.content or "").strip()
         if not output_text:
             return fallback
 

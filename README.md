@@ -21,7 +21,7 @@ Interviewing Helper is a web app that helps job seekers prepare for interviews b
 ## Backend Setup
 
 ```bash
-cd /home/runner/work/interviewing-helper/interviewing-helper/backend
+cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -33,7 +33,7 @@ uvicorn main:app --reload
 ## Frontend Setup
 
 ```bash
-cd /home/runner/work/interviewing-helper/interviewing-helper/frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -43,7 +43,6 @@ Set `VITE_API_BASE_URL` if your backend is not on `http://localhost:8000`.
 ## Docker Compose
 
 ```bash
-cd /home/runner/work/interviewing-helper/interviewing-helper
 docker compose up --build
 ```
 
